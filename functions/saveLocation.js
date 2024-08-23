@@ -1,15 +1,31 @@
-const fs = require("fs");
+const faunadb = require('faunadb');
+const q = faunadb.query;
 
-exports.handler = async function(event, context) {
+// Inicializar o cliente do FaunaDB
+const client = new faunadb.Client({
+    secret: process.env.FAUNA_SECRET // a chave secreta do FaunaDB
+});
+
+exports.handler = async function (event, context) {
     const data = JSON.parse(event.body);
-    const log = `Lat: ${data.lat}, Long: ${data.long}, User Agent: ${data.userAgent}\n`;
-    
-    // Salva os dados em um arquivo (você precisará de um serviço de armazenamento para isso)
-    // No Netlify, você pode salvar os dados em uma base de dados como FaunaDB ou outro serviço suportado.
 
-    // Aqui, apenas retornamos a string como prova de conceito.
-    return {
-        statusCode: 200,
-        body: "Localização salva: " + log
-    };
+    try {
+        // Inserir os dados no FaunaDB
+        const result = await client.query(
+            q.Create(
+                q.Collection('Locations'), // Nome da Collection no FaunaDB
+                { data: { lat: data.lat, long: data.long, userAgent: data.userAgent } }
+            )
+        );
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({ message: "Localização salva com sucesso!" })
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: "Erro ao salvar localização.", error: error.message })
+        };
+    }
 };
