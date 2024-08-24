@@ -1,46 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ROGÉRIO CENI VS CORINTHIANS !!! GIF</title>
-  </head>
-  <body onload="getLocation()" style="background-color: black">
-    <img src="rogerio.gif" alt="Descrição do GIF" width="500" height="300" />
-    <p id="demo"> </p>
-    <script>
-      var x = document.getElementById("demo");
 
-      function getLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-          x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROGÉRIO CENI VS CORINTHIANS !!! GIF</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R00VN12LD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-      function showPosition(position) {
-        const data = {
-          lat: position.coords.latitude,
-          long: position.coords.longitude,
-          userAgent: navigator.userAgent
-        };
+    gtag('config', 'G-9R00VN12LD');
+  </script>
+</head>
 
-        fetch("/.netlify/functions/saveLocation", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.text())
-        .then(data => {
-          console.log("Success:", data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-      }
-    </script>
-  </body>
+<body style="background-color: black">
+  <img src="rogerio.gif" alt="Descrição do GIF" width="500" height="300" />
+</body>
+
 </html>
